@@ -13,7 +13,7 @@ The classes in this class library provide a C# implementation of the schemas def
 This class library uses the NewtonSoft.Json NuGet package for serialization and de-serialization.
 
 # Documentation
-The documentation pages project for this project is called [EidoLibDocumentation](https://github.com/PhrSite/Ng911LibDocumentation). The documentation web site includes class documentation and articles that explain ussage of the classes in this library.
+The documentation pages project for this project is called [EidoLibDocumentation](https://github.com/PhrSite/EidoLibDocumentation). The documentation web site includes class documentation and articles that explain ussage of the classes in this library.
 
 # Installation
 This class library is available on NuGet.
