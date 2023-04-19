@@ -5,8 +5,15 @@
 using Eido;
 using NiemTypes;
 
+using AdditionalData;
+using Ng911Lib.Utilities;
+using Pidf;
+
 namespace EidoUnitTests
 {
+    /// <summary>
+    /// There is only one sample test file provided in the NENA EIDO-JSON GitHub repository.
+    /// </summary>
     [Trait("Category", "unit")]
     public class EidoUnitTests
     {
@@ -16,12 +23,18 @@ namespace EidoUnitTests
         /// The SampleCallTransferEido.json file was taken from the Samples directory of
         /// the NENA EIDO-JSON GitHub repository at https://github.com/NENA911/EIDO-JSON.
         /// </summary>
-        [Fact]
-        public void SampleCallTransferEido()
+        private EidoType GetSampleCallTransferEido()
         {
             string strEido = File.ReadAllText(Path.Combine(FilePath, "SampleCallTransferEido.json"));
             EidoType eido = EidoHelper.FromString(strEido);
             Assert.NotNull(eido);
+            return eido;
+        }
+
+        [Fact]
+        public void SampleCallTransferEido()
+        {
+            EidoType eido = GetSampleCallTransferEido();
 
             Assert.True(eido.Id != null && eido.Id == "urn:emergency:uid:incidentid:a56e556d871:bcf.state.pa.us",
                 "eido.Id is wrong");
@@ -66,9 +79,7 @@ namespace EidoUnitTests
         [Fact]
         public void SampleCallTransferEido_CallComponent()
         {
-            string strEido = File.ReadAllText(Path.Combine(FilePath, "SampleCallTransferEido.json"));
-            EidoType eido = EidoHelper.FromString(strEido);
-            Assert.NotNull(eido);
+            EidoType eido = GetSampleCallTransferEido();
 
             Assert.True(eido.callComponent != null && eido.callComponent.Count == 1,
                 "The callComponent is null or empty");
@@ -122,9 +133,8 @@ namespace EidoUnitTests
         [Fact]
         public void SampleCallTransferEido_CallBackComponent()
         {
-            string strEido = File.ReadAllText(Path.Combine(FilePath, "SampleCallTransferEido.json"));
-            EidoType eido = EidoHelper.FromString(strEido);
-            Assert.NotNull(eido);
+            EidoType eido = GetSampleCallTransferEido();
+
             Assert.True(eido.callbackComponent != null && eido.callbackComponent.Count == 1,
                 "The callbackComponent is null or empty");
             CallbackType Cbt = eido.callbackComponent[0];
@@ -135,7 +145,111 @@ namespace EidoUnitTests
                 "state.pa.us", "The updatedByAgencyReference.Ref is wrong");
             Assert.True(Cbt.updatedByAgentReference?.Ref != null && Cbt.updatedByAgentReference.Ref ==
                 "tjones.atroop@state.pa.us", "Cbt.updatedByAgentReference is wrong");
+            Assert.True(Cbt.callBackInformationUri != null && Cbt.callBackInformationUri.Count == 2,
+                "The callBackInformationUri is null or the count is wrong");
+            Assert.True(Cbt.callBackInformationUri[0] == "sip:8195551212@osp.com", "The first " +
+                "callBackInformationUri is wrong");
+            Assert.True(Cbt.callBackInformationUri[1] == "tel:8195551212", "The second " +
+                "callBackInformationUri is wrong");
+            Assert.True(Cbt.deviceContactHeader == "sip:conferenceid3053@bridge.ngcs.com;isfocus",
+                "The deviceContactHeader is wrong");
+        }
 
+        [Fact]
+        public void SampleCallTransferEido_agencyComponent()
+        {
+            EidoType eido = GetSampleCallTransferEido();
+            Assert.True(eido.agencyComponent != null && eido.agencyComponent.Count == 1,
+                "The agencyComponent is null or the count is wrong.");
+            AgencyType At = eido.agencyComponent[0];
+            Assert.True(At.Id == "state.pa.us", "At.Id is wrong");
+            Assert.True(At.lastUpdateTimestamp == "2021-04-30T14:40:00.0-04:00", "The lastUpdateTimestamp is wrong");
+            Assert.True(At.updatedByAgencyReference?.Ref == "state.pa.us", "At.updatedByAgencyReference is wrong");
+            Assert.True(At.agencyRoleDescriptionRegistryText?[0] == "CallReceiving",
+                "At.agencyRoleDescriptionRegistryText[0] is wrong");
+            Assert.True(At.agencyType?[0] == "psap", "The agencyType is wrong");
+
+        }
+
+        [Fact]
+        public void SampleCallTransferEido_agentComponent()
+        {
+            EidoType eido = GetSampleCallTransferEido();
+            Assert.True(eido.agentComponent != null && eido.agentComponent.Count == 1,
+                "The agentComponent is null or the count is wrong");
+            AgentType At = eido.agentComponent[0];
+            Assert.True(At.Id == "tjones.atroop@state.pa.us", "At.Id is wrong");
+            Assert.True(At.lastUpdateTimestamp == "2021-04-30T14:42:00.0-04:00", "The lastUpdateTimestamp is wrong");
+            Assert.True(At.updatedByAgencyReference?.Ref == "state.pa.us", "The updatedByAgencyReference is wrong");
+            Assert.True(At.updatedByAgentReference?.Ref == "tjones.atroop@state.pa.us",
+                "The updatedByAgentReference is wrong");
+            Assert.True(At.agentWorkstationPositionIdentification == "5", "The agentWorkstationPositionIdentification is wrong");
+            Assert.True(At.agentRoleRegistryText?[0] == "Call Taking", "The agentRoleRegistryText is wrong");
+            Assert.True(At.agencyReference?.Ref == "state.pa.us", "The agencyReference is wrong");
+        }
+
+        [Fact]
+        public void SampleCallTransferEido_personComponent()
+        {
+            EidoType eido = GetSampleCallTransferEido();
+            Assert.True(eido.personComponent != null && eido.personComponent.Count == 1,
+                "The personComponent is null or the count is wrong");
+            PersonInformationType Pit = eido.personComponent[0];
+            Assert.True(Pit.Id == "123e4567-abcd-12d3-a456-426614174000", "Pit.Id is wrong");
+            Assert.True(Pit.lastUpdateTimestamp == "2021-04-30T14:40:00.0-04:00", "Pit.lastUpdateTimestamp is wrong");
+            Assert.True(Pit.updatedByAgencyReference?.Ref == "state.pa.us", "Pit.updatedByAgencyReference is wrong");
+            Assert.True(Pit.personIncidentRoleRegistryText?[0] == "Caller", "Pit.personIncidentRoleRegistryText is wrong");
+            Assert.True(Pit.callIdentifier?[0] == "urn:emergency:uid:callid:a56e556d871:bcf.state.pa.us",
+                "Pit.callIdentifier is wrong");
+            Assert.True(Pit.callBackReference?.Ref == "123e4567-e89b-1234-a456-426614174000",
+                "Pit.callBackReference is wrong");
+        }
+
+        [Fact]
+        public void SampleCallTransferEido_AdditionalDataComponent()
+        {
+            EidoType eido = GetSampleCallTransferEido();
+            Assert.True(eido.additionalDataComponent != null && eido.additionalDataComponent.Count == 3,
+                "The additionalDataComponent is null or the count is wrong");
+
+            // The sample file does not have the urlPurpose property set to the appropriate purpose
+            // values so a client does not know which type to deserialize the string into.
+            // For example, additionalDataComponent[0].urlPurpose should be set to EmergencyCallData.ServiceInfo.
+
+            AdditionalDataType Adt1 = eido.additionalDataComponent[0];
+            ServiceInfoType Sit = XmlHelper.DeserializeFromString<ServiceInfoType>(
+                Adt1.additionalDataByValue);
+            Assert.True(Sit != null, "The first additionalDataComponent is invalid");
+
+            AdditionalDataType Adt2 = eido.additionalDataComponent[1];
+            ProviderInfoType Pit = XmlHelper.DeserializeFromString<ProviderInfoType>(
+                Adt2.additionalDataByValue);
+            Assert.True(Pit != null, "The second additionalDataComponent is invalid");
+
+            AdditionalDataType Adt3 = eido.additionalDataComponent[2];
+            CommentType Ct = XmlHelper.DeserializeFromString<CommentType>( Adt3.additionalDataByValue);
+            Assert.True(Ct != null, "The third additionalDataComponent is invalid");
+        }
+
+        [Fact]
+        public void SampleCallTransferEido_LocationComponent()
+        {
+            EidoType eido = GetSampleCallTransferEido();
+            Assert.True(eido.locationComponent != null && eido.locationComponent.Count == 2,
+                "The locationComponent is null or the count is wrong");
+
+            LocationInformationType Lit1 = eido.locationComponent[0];
+            Assert.True(Lit1.locationTypeDescriptionRegistryText == "RoutingLocation",
+                "The first locationTypeDescriptionRegistryText is wrong");
+            Assert.NotNull(Lit1.locationByValue);
+            Presence pres = XmlHelper.DeserializeFromString<Presence>(Lit1.locationByValue);
+            Assert.True(pres != null, "Lit1.locationByValue is not valid");
+
+            LocationInformationType Lit2 = eido.locationComponent[1];
+            Assert.True(Lit2.locationTypeDescriptionRegistryText == "Caller", "The second " +
+                "locationTypeDescriptionRegistryText is wrong");
+            Assert.True(Lit2.locationByReferenceUrl == "https://lrf.osp.com?oasufdqwerjn12346jfias",
+                "Lit2.locationByReferenceUrl is wrong");
         }
     }
 }
