@@ -12,6 +12,10 @@ namespace EidoUnitTests
     {
         private string FilePath = @"..\..\..\EidoTestFiles\";
 
+        /// <summary>
+        /// The SampleCallTransferEido.json file was taken from the Samples directory of
+        /// the NENA EIDO-JSON GitHub repository at https://github.com/NENA911/EIDO-JSON.
+        /// </summary>
         [Fact]
         public void SampleCallTransferEido()
         {
@@ -124,6 +128,13 @@ namespace EidoUnitTests
             Assert.True(eido.callbackComponent != null && eido.callbackComponent.Count == 1,
                 "The callbackComponent is null or empty");
             CallbackType Cbt = eido.callbackComponent[0];
+            Assert.True(Cbt.Id == "123e4567-e89b-1234-a456-426614174000", "Cbt.Id is wrong");
+            Assert.True(Cbt.lastUpdateTimestamp == "2021-04-30T14:40:00.0-04:00",
+                "Cbt.lastUpdateTimestamp is wrong");
+            Assert.True(Cbt.updatedByAgencyReference != null && Cbt.updatedByAgencyReference.Ref == 
+                "state.pa.us", "The updatedByAgencyReference.Ref is wrong");
+            Assert.True(Cbt.updatedByAgentReference?.Ref != null && Cbt.updatedByAgentReference.Ref ==
+                "tjones.atroop@state.pa.us", "Cbt.updatedByAgentReference is wrong");
 
         }
     }
