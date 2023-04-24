@@ -4,6 +4,20 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
+    <Title>Emergency Incident Data Object (EIDO) Class Library</Title>
+    <Authors>Philip Reichl</Authors>
+    <Company>Philip Reichl</Company>
+    <Description>A class library for the model classes of the NG9-1-1 EIDO</Description>
+    <Copyright>2023 (c) Philip Reichl</Copyright>
+    <PackageProjectUrl>https://phrsite.github.io/EidoLibDocumentation/</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/PhrSite/EidoLib</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReleaseNotes>1.0.0 -- Initial version</PackageReleaseNotes>
+    <PackageOutputPath>\_MyProjects\NuGetPackages</PackageOutputPath>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
+    <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -20,6 +34,13 @@
 
   <ItemGroup>
     <Folder Include="NiemTypes\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
