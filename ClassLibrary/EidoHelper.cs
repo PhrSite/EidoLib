@@ -57,7 +57,47 @@ namespace Eido
             string strJson = null;
             try
             {
-                strJson = JsonConvert.SerializeObject(EidoObj, Formatting.Indented);
+                strJson = JsonConvert.SerializeObject(EidoObj, JsonSerSettings);
+            }
+            catch (JsonSerializationException) { strJson = null; }
+            catch (Exception) { strJson = null; }
+
+            return strJson;
+        }
+
+        /// <summary>
+        /// Deserializes a JSON string into an object.
+        /// </summary>
+        /// <typeparam name="T">Specifies the type of the object to deserialize the JSON string into.
+        /// </typeparam>
+        /// <param name="strJson">Input string to deserialize</param>
+        /// <returns>Returns an object of the specified type if successful or null if an error occurred.
+        /// </returns>
+        public static T DeserializeFromString<T>(string strJson)
+        {
+            T ObjResult = default(T);
+            try
+            {
+                ObjResult = JsonConvert.DeserializeObject<T>(strJson, JsonSerSettings);
+            }
+            catch (JsonSerializationException) { ObjResult = default(T); }
+            catch (Exception) { ObjResult = default(T); }
+
+            return ObjResult;
+        }
+
+        /// <summary>
+        /// Serializes an object into an indented JSON string.
+        /// </summary>
+        /// <param name="Obj">Input object to serialize</param>
+        /// <returns>Returns an indented JSON string if no errors occurred. Returns null if an
+        /// error occurred.</returns>
+        public static string SerializeToString(object obj)
+        {
+            string strJson = null;
+            try
+            {
+                strJson = JsonConvert.SerializeObject(obj, JsonSerSettings);
             }
             catch (JsonSerializationException) { strJson = null; }
             catch (Exception) { strJson = null; }

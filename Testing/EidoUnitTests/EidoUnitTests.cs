@@ -12,12 +12,46 @@ using Pidf;
 namespace EidoUnitTests
 {
     /// <summary>
+    /// Tests to see if the classes for an EIDO can be deserialized from a string.
     /// There is only one sample test file provided in the NENA EIDO-JSON GitHub repository.
     /// </summary>
     [Trait("Category", "unit")]
     public class EidoUnitTests
     {
         private string FilePath = @"..\..\..\EidoTestFiles\";
+
+        public EidoUnitTests()
+        {
+            
+            //BuildEidoWithJcard();
+        }
+
+        // Only do this once if the file does not exist. Otherwise it will not work.
+        private void BuildEidoWithJcard()
+        {
+            string strPath = Path.Combine(FilePath, "EidoWithJcard.json");
+            if (File.Exists(strPath) == true)
+                return;
+
+            EidoType eido = GetSampleCallTransferEido();
+            vcardType Vc = new vcardType();
+            Vc.org = new org[1];
+            org Org = new org();
+            Vc.org[0] = Org;
+            Org.text = new string[1];
+            Org.text[0] = "PSAP Name";
+            Vc.FirstName = "John";
+            Vc.LastName = "Doe";
+            Vc.Street = "123 Main Street";
+            Vc.City = "AnyTown";
+            Vc.State = "NY";
+            Vc.TelephoneNumber = "8185553333";
+            Vc.EMail = "Psap@PsapName.org";
+
+            eido.agencyComponent[0].agencyJcard = JCard.XcardToJsonString(Vc); ;
+            string strEido = EidoHelper.ToJsonString(eido);
+            File.WriteAllText(strPath, strEido);
+        }
 
         /// <summary>
         /// The SampleCallTransferEido.json file was taken from the Samples directory of
@@ -251,5 +285,31 @@ namespace EidoUnitTests
             Assert.True(Lit2.locationByReferenceUrl == "https://lrf.osp.com?oasufdqwerjn12346jfias",
                 "Lit2.locationByReferenceUrl is wrong");
         }
+
+        [Fact]
+        public void EidoWithJcard()
+        {
+            string strEidoPath = Path.Combine(FilePath, "EidoWithJcard.json");
+            Assert.True(File.Exists(strEidoPath), "EidoWithJcard.json not found");
+            string strEido = File.ReadAllText(Path.Combine(FilePath, "EidoWithJcard.json"));
+            Assert.True(string.IsNullOrEmpty(strEido) == false, "Error reading the file");
+            EidoType eido = EidoHelper.FromString(strEido);
+            Assert.True(eido != null, "Error deserializing the EIDO");
+            string strJcard = eido.agencyComponent?[0]?.agencyJcard;
+            Assert.True(string.IsNullOrEmpty(strJcard) == false, "No JCard available");
+
+            vcardType Vc = JCard.JCardStringToVCardType(strJcard);
+            Assert.True(Vc != null, "Error converting the JCard string to a vcardType");
+            Assert.True(Vc.FirstName == "John", "FirstName is wrong");
+            Assert.True(Vc.LastName == "Doe");
+            string strOrg = Vc.org?[0].text?[0];
+            Assert.True(strOrg == "PSAP Name", "The organization is wrong");
+            Assert.True(Vc.Street == "123 Main Street", "Street is wrong");
+            Assert.True(Vc.City == "AnyTown", "City is wrong");
+            Assert.True(Vc.State == "NY", "State is wrong");
+            Assert.True(Vc.TelephoneNumber == "8185553333", "TelephoneNumber is wrong");
+            Assert.True(Vc.EMail == "Psap@PsapName.org", "EMail is wrong");
+        }
+
     }
 }

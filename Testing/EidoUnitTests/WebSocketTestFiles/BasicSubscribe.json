@@ -1,0 +1,10 @@
+{
+  "subscribe": {
+    "requestId": "63bfd612-f558-4489-b653-caa76a7edb9b",
+    "requestType": "EIDO",
+    "requestSubType": "new",
+    "requestAccepts": "application/emergency.eido+json; version=\"1,2,3\"",
+    "qualFilter": "<filter_string>",
+    "minRate": 1500
+  }
+}

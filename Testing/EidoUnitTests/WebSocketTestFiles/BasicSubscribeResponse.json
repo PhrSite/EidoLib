@@ -1,0 +1,9 @@
+{
+  "subscribeResponse": {
+    "requestId": "63bfd612-f558-4489-b653-caa76a7edb9b",
+    "subscriptionId": "sub1234",
+    "expires": 3600,
+    "statusCode": 200,
+    "statusText": "OK"
+  }
+}

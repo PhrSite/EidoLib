@@ -1,0 +1,7 @@
+{
+  "unsubscribeResponse": {
+    "subscriptionId": "sub1234",
+    "statusCode": 200,
+    "statusText": "Unsubscribed"
+  }
+}
