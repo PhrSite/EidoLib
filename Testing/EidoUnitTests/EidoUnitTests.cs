@@ -249,20 +249,75 @@ namespace EidoUnitTests
             // The sample file does not have the urlPurpose property set to the appropriate purpose
             // values so a client does not know which type to deserialize the string into.
             // For example, additionalDataComponent[0].urlPurpose should be set to EmergencyCallData.ServiceInfo.
+            // So its necessary to check the schema of the XML data before deserializing the XML document
+            // into a class.
+            foreach (AdditionalDataType Adt  in eido.additionalDataComponent)
+            {
+                if (Adt.additionalDataByValue != null)
+                {
+                    string strType = GetAdditionalDataType(Adt.urlPurpose, Adt.additionalDataByValue);
+                    Assert.True(string.IsNullOrEmpty(strType) == false, "strType is null or empty");
 
-            AdditionalDataType Adt1 = eido.additionalDataComponent[0];
-            ServiceInfoType Sit = XmlHelper.DeserializeFromString<ServiceInfoType>(
-                Adt1.additionalDataByValue);
-            Assert.True(Sit != null, "The first additionalDataComponent is invalid");
+                    switch (strType)
+                    {
+                        case PurposeTypes.Comment:
+                            CommentType Ct = XmlHelper.DeserializeFromString<CommentType>(Adt.
+                                additionalDataByValue);
+                            Assert.True(Ct != null, "The third additionalDataComponent is invalid");
+                            break;
+                        case PurposeTypes.DeviceInfo:
 
-            AdditionalDataType Adt2 = eido.additionalDataComponent[1];
-            ProviderInfoType Pit = XmlHelper.DeserializeFromString<ProviderInfoType>(
-                Adt2.additionalDataByValue);
-            Assert.True(Pit != null, "The second additionalDataComponent is invalid");
+                            break;
+                        case PurposeTypes.ProviderInfo:
+                            ProviderInfoType Pit = XmlHelper.DeserializeFromString<ProviderInfoType>(
+                                Adt.additionalDataByValue);
+                            Assert.True(Pit != null, "The second additionalDataComponent is invalid");
+                            break;
+                        case PurposeTypes.ServiceInfo:
+                            ServiceInfoType Sit = XmlHelper.DeserializeFromString<ServiceInfoType>(
+                                Adt.additionalDataByValue);
+                            Assert.True(Sit != null, "The first additionalDataComponent is invalid");
+                            break;
+                        case PurposeTypes.SubscriberInfo:
 
-            AdditionalDataType Adt3 = eido.additionalDataComponent[2];
-            CommentType Ct = XmlHelper.DeserializeFromString<CommentType>( Adt3.additionalDataByValue);
-            Assert.True(Ct != null, "The third additionalDataComponent is invalid");
+                            break;
+                    }
+                }
+                else if (string.IsNullOrEmpty(Adt.additionalDataByReferenceUrl) == false)
+                {
+                    // TODO: De-reference the additionalDataByReferenceUrl to get the additional data.
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the XML schema type for additional data. If the strPurpose is null, then this function
+        /// searches the strAddDataXml input string for the additional data XML schema identifier.
+        /// </summary>
+        /// <param name="strPurpose">Purpose parameter that identifies the additional data schema. This
+        /// parameter can be set to null if a purpose parameter was not provided.</param>
+        /// <param name="strAddDataXml">String containing the additional data XML document.</param>
+        /// <returns>Returns a string that identifies the schema of the additional data XML document.
+        /// For example: EmergencyCallData.ServiceInfo. Returns null if the additional data XML
+        /// schema could not be identified.</returns>
+        private string GetAdditionalDataType(string strPurpose, string strAddDataXml)
+        {
+            if (string.IsNullOrEmpty(strPurpose) == false)
+                return strPurpose;
+
+            string strType = null;
+            if (strAddDataXml.IndexOf(PurposeTypes.Comment) >= 0)
+                strType = PurposeTypes.Comment;
+            else if (strAddDataXml.IndexOf(PurposeTypes.DeviceInfo) >= 0)
+                strType = PurposeTypes.DeviceInfo;
+            else if (strAddDataXml.IndexOf(PurposeTypes.ProviderInfo) >= 0)
+                strType = PurposeTypes.ProviderInfo;
+            else if (strAddDataXml.IndexOf(PurposeTypes.ServiceInfo) >= 0)
+                strType = PurposeTypes.ServiceInfo;
+            else if (strAddDataXml.IndexOf(PurposeTypes.SubscriberInfo) >= 0)
+                strType = PurposeTypes.SubscriberInfo;
+
+            return strType;
         }
 
         [Fact]
