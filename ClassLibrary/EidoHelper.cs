@@ -89,7 +89,7 @@ namespace Eido
         /// <summary>
         /// Serializes an object into an indented JSON string.
         /// </summary>
-        /// <param name="Obj">Input object to serialize</param>
+        /// <param name="obj">Input object to serialize</param>
         /// <returns>Returns an indented JSON string if no errors occurred. Returns null if an
         /// error occurred.</returns>
         public static string SerializeToString(object obj)

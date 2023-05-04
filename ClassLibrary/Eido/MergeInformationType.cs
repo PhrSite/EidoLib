@@ -12,8 +12,17 @@ namespace Eido
     /// </summary>
     public enum IncidentMergeDirectionCodeSimpleType
     {
+        /// <summary>
+        /// Replacing
+        /// </summary>
         REPLACING,
+        /// <summary>
+        /// Replaced
+        /// </summary>
         REPLACED,
+        /// <summary>
+        /// Split
+        /// </summary>
         SPLIT
     }
 

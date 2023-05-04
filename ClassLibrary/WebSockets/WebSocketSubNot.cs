@@ -190,14 +190,41 @@ namespace WebSocketSubNot
     /// </summary>
     public enum SubscribeResponseCodeEnum
     {
+        /// <summary>
+        /// Indicates success
+        /// </summary>
         OK = 200,
+        /// <summary>
+        /// Bad Request
+        /// </summary>
         BadRequest = 400,
+        /// <summary>
+        /// Forbidden
+        /// </summary>
         Forbidden = 403,
+        /// <summary>
+        /// Not Found
+        /// </summary>
         NotFound = 404,
+        /// <summary>
+        /// Unacceptable
+        /// </summary>
         Unaccetable = 406,
+        /// <summary>
+        /// Payload To Large
+        /// </summary>
         PayloadTooLarge = 413,
+        /// <summary>
+        /// Subscription Does No Exist
+        /// </summary>
         SubscriptionDoesNotExist = 481,
+        /// <summary>
+        /// Internal Server Error
+        /// </summary>
         InternalServerError = 500,
+        /// <summary>
+        /// Service Unavailable
+        /// </summary>
         ServiceUnavailable = 503
     }
 
@@ -292,11 +319,29 @@ namespace WebSocketSubNot
     /// </summary>
     public enum UnsubscribeResponseCodeEnum
     {
+        /// <summary>
+        /// OK -- Success
+        /// </summary>
         OK = 200,
+        /// <summary>
+        /// Bad Request
+        /// </summary>
         BadRequest = 400,
+        /// <summary>
+        /// Payload Too Large
+        /// </summary>
         PayloadTooLarge = 413,
+        /// <summary>
+        /// Subscription Does Not Exist
+        /// </summary>
         SubscriptionDoesNotExist = 481,
+        /// <summary>
+        /// Internal Server Error
+        /// </summary>
         InternalServerError = 500,
+        /// <summary>
+        /// Service Unavailable
+        /// </summary>
         ServiceUnavailable = 503
     }
 
@@ -359,6 +404,9 @@ namespace WebSocketSubNot
         /// </summary>
         public NotifyEventResponseObject eventResponse { get; set; }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public NotifyEventResponse()
         {
             eventResponse = new NotifyEventResponseObject();
@@ -392,14 +440,41 @@ namespace WebSocketSubNot
     /// </summary>
     public enum NotifyEventResponseEnum
     {
+        /// <summary>
+        /// Success
+        /// </summary>
         OK = 200,
+        /// <summary>
+        /// Bad Request
+        /// </summary>
         BadRequest = 400,
+        /// <summary>
+        /// Forbidden
+        /// </summary>
         Forbidden = 403,
+        /// <summary>
+        /// Not Found
+        /// </summary>
         NotFound = 404,
+        /// <summary>
+        /// Payload Too Large
+        /// </summary>
         PayloadTooLarge = 413,
+        /// <summary>
+        /// Subscription Does Not Exist
+        /// </summary>
         SubscriptionDoesNotExist = 481,
+        /// <summary>
+        /// Internal Server Error
+        /// </summary>
         InternalServerError = 500,
+        /// <summary>
+        /// Not Implemented
+        /// </summary>
         NotImplemented = 501,
+        /// <summary>
+        /// Service Unavailable
+        /// </summary>
         ServiceUnavailable = 503
     }
 
@@ -495,11 +570,29 @@ namespace WebSocketSubNot
     /// </summary>
     public enum TerminateResponseCodeEnum
     {
+        /// <summary>
+        /// Success
+        /// </summary>
         OK = 200,
+        /// <summary>
+        /// Bad Request
+        /// </summary>
         BadRequest = 400,
+        /// <summary>
+        /// Subscription Does Not Exist
+        /// </summary>
         SubscriptionDoesNotExist = 481,
+        /// <summary>
+        /// Internal Server Error
+        /// </summary>
         InternalServerError = 500,
+        /// <summary>
+        /// Not Implemented
+        /// </summary>
         NotImplemented = 501,
+        /// <summary>
+        /// Service Unavailable
+        /// </summary>
         ServiceUnavailable = 503
     }
 }

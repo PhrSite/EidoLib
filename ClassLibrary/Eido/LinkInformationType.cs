@@ -12,9 +12,21 @@ namespace Eido
     /// </summary>
     public enum LinkDirectionCodeSimpleType
     {
+        /// <summary>
+        /// Parent
+        /// </summary>
         PARENT,
+        /// <summary>
+        /// Child
+        /// </summary>
         CHILD,
+        /// <summary>
+        /// Related
+        /// </summary>
         RELATED,
+        /// <summary>
+        /// Unlink
+        /// </summary>
         UNLINK
     }
 
