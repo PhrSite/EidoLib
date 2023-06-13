@@ -8,6 +8,9 @@ namespace WebSocketSubNot
 {
     /// <summary>
     /// Class for a subscription request. See Section 2.1.5.1 of NENA-STA-024.1a-2023.
+    /// A subscriber (for example a CAD system) sends a subscribe request to a notifier (for example a PSAP
+    /// CPE call handling functional element) to subscribe to one or all incidents. The notifier will respond
+    /// with a SubscribeResponse message object.
     /// </summary>
     public partial class SubscribeRequest
     {
