@@ -13,12 +13,13 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/PhrSite/EidoLib</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>1.0.0 -- Initial version</PackageReleaseNotes>
+    <PackageReleaseNotes>1.0.1 -- Added the SubNotMsgTypes class to the WebSocketSubNot namespace</PackageReleaseNotes>
     <PackageOutputPath>\_MyProjects\NuGetPackages</PackageOutputPath>
-    <AssemblyVersion>1.0.0</AssemblyVersion>
-    <FileVersion>1.0.0</FileVersion>
+    <AssemblyVersion>1.0.1</AssemblyVersion>
+    <FileVersion>1.0.1</FileVersion>
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -27,13 +27,13 @@ This class library is available on NuGet.
 To install it from the .NET CLI type:
 
 ```
-dotnet add package EidoLib --version 1.0.0
+dotnet add package EidoLib --version 1.0.1
 ```
 
 To install using the NuGET Package Manager Command window type:
 
 ```
-NuGet\Install-Package EidoLib -Version 1.0.0
+NuGet\Install-Package EidoLib -Version 1.0.1
 ```
 
 Or, you can install it from the Visual Studio GUI.
